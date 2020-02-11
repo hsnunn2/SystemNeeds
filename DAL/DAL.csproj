@@ -91,12 +91,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <None Include="EULA.pdf" />
     <None Include="Needs.edmx.diagram">
       <DependentUpon>Needs.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="index.htm" />
     <Content Include="Needs.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Needs.Context.cs</LastGenOutput>
@@ -107,6 +109,11 @@
       <DependentUpon>Needs.edmx</DependentUpon>
       <LastGenOutput>Needs.cs</LastGenOutput>
     </Content>
+    <Content Include="ReadMe.txt" />
+    <Content Include="ReleaseNotes.txt" />
+    <Content Include="Scripts\jquery-1.7-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.7.js" />
+    <Content Include="Scripts\jquery-1.7.min.js" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
