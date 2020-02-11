@@ -13,6 +13,12 @@ namespace SystemNeeds.Controllers
             return View();
         }
 
+
+        public ActionResult Grid()
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
