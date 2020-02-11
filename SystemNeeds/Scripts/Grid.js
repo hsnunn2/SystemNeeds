@@ -56,11 +56,11 @@
         var filtercondition = 'equal';
         var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
 
-        var cpdsbyid = [];
-        for (var m = 0; m < record.CPDList.length; m++) {
+        var projectssbyid = [];
+        for (var m = 0; m < record.ProjectList.length; m++) {
             // var result = filter.evaluate(cpds[m]["NeedID"]);
             // if (result)
-            cpdsbyid.push(record.CPDList[m]);
+            projectssbyid.push(record.ProjectList[m]);
         }
 
         var cpdssource = {
@@ -72,7 +72,7 @@
                 { name: 'LastModified', type: 'date' }
             ],
             id: 'Id',
-            localdata: cpdsbyid
+            localdata: projectssbyid
         }
 
         var nestedGridAdapter = new $.jqx.dataAdapter(cpdssource);
@@ -113,11 +113,11 @@
             //  $("#grid").jqxGrid('showrowdetails', 1);
             // },
             columns: [
-                { text: 'System-Need ID', dataField: 'NeedID', width: 60 },
-                { text: 'Need Title', dataField: 'NeedTitle', width: 200 },
-                { text: 'Need Description', dataField: 'NeedDescription', width: 200 },
-                { text: 'Need Date', dataField: 'NeedDate', cellsformat: 'yyyy-MM-dd', width: 120 },
-                {
+                { text: 'System-Need ID', dataField: 'Need.ID', width: 60 },
+                { text: 'Need Title', dataField: 'Need.Name', width: 200 },
+                { text: 'Need Description', dataField: 'Need.Description', width: 200 },
+                { text: 'Need Date', dataField: 'Need.NeedDate', cellsformat: 'yyyy-MM-dd', width: 120 },
+                /*{
                     text: 'CPDs Assigned', datafield: 'CPDAssignedToNeeds', width: 100,
                     cellsrenderer: function (row, colum, value) {
                         var cell = '<div style="margin-top:5px;">';
@@ -126,7 +126,8 @@
                         cell += '</div>';
                         return cell;
                     }
-                }//,
+                    */
+               // }//,
                 //{ text: 'CPD List', dataField: 'CPDList', width: 200 }
 
             ]
