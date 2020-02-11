@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL.csproj", "{34803
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeedAPI", "..\NeedAPI\NeedAPI.csproj", "{18D2095A-FF8F-4162-84A3-13410DB92A65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemNeeds", "..\SystemNeeds\SystemNeeds.csproj", "{D5CE8814-C939-497C-814D-575A408DD41B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{18D2095A-FF8F-4162-84A3-13410DB92A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18D2095A-FF8F-4162-84A3-13410DB92A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18D2095A-FF8F-4162-84A3-13410DB92A65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5CE8814-C939-497C-814D-575A408DD41B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5CE8814-C939-497C-814D-575A408DD41B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5CE8814-C939-497C-814D-575A408DD41B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5CE8814-C939-497C-814D-575A408DD41B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
