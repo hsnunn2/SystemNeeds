@@ -164,7 +164,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NeedProjectsController.cs" />
     <Compile Include="Controllers\NeedViewModelController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

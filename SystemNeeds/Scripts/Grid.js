@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var vmURL = "https://localhost:44320/";
+    var vmURL = "https://localhost:44320/api/NeedViewModel/GetVM";
    
     var theme = 'arctic';
 
@@ -11,8 +11,7 @@
             { name: 'NeedTitle', type: 'string' },
             { name: 'NeedDescription', type: 'string' },
             { name: 'NeedDate', type: 'date' },
-            { name: 'CPDAssignedToNeeds', type: 'int' },
-            { name: 'CPDList', type: 'array' }
+            { name: 'ProjectList', type: 'array' }
 
         ],
         id: 'ID',
@@ -81,8 +80,8 @@
             grid.jqxGrid({
                 source: nestedGridAdapter, width: 650, height: 120,
                 columns: [
-                    { text: 'CPD ID', datafield: 'Id', width: 80 },
-                    { text: 'CPD Title', datafield: 'Title', width: 200 },
+                    { text: 'Project ID', datafield: 'Id', width: 80 },
+                    { text: 'Project Title', datafield: 'Title', width: 200 },
                     { text: 'In Service Date', datafield: 'InServiceDate', width: 150 },
                     { text: 'Last Modified', datafield: 'LastModified', width: 150 }
                 ]
