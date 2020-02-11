@@ -12,7 +12,7 @@ namespace NeedAPI.Controllers
     {
         NeedEntities db = new NeedEntities();
         // GET: api/NeedViewModel
-        public IEnumerable<NeedViewModel> Get()
+        public IEnumerable<NeedViewModel> GetVM()
         {
 
             List<NeedViewModel> vmList = new List<NeedViewModel>();
