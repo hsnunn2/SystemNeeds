@@ -45,8 +45,8 @@ namespace NeedAPI.Controllers
                         }
                     }
                 }
+                vmList.Add(vm);
 
-               
             }
             
             return vmList;
