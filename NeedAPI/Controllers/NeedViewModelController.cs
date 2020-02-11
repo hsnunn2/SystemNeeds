@@ -27,6 +27,7 @@ namespace NeedAPI.Controllers
             {
 
                 vm = new NeedViewModel();
+                vm.ProjectList = new List<Project>();
                 vm.NeedProject = np;
                 
                 foreach(var n in nList)
@@ -34,16 +35,18 @@ namespace NeedAPI.Controllers
                     if (n.ID == np.NeedID)
                     {
                         vm.Need = n;
+
+                        foreach(var p in pList)
+                        {
+                            if (p.Id == np.ProjectID)
+                            {
+                                vm.ProjectList.Add(p);
+                            }
+                        }
                     }
                 }
 
-                foreach (var p in nList)
-                {
-                    if (n.ID == np.NeedID)
-                    {
-                        vm.Need = n;
-                    }
-                }
+               
             }
             
             return vmList;
