@@ -8,5 +8,7 @@ namespace DAL
 {
     public class NeedViewModel
     {
+        public Need Need { get; set; }
+        public List<Project> ProjectList { get; set; }
     }
 }

@@ -31,8 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,8 +50,66 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Need.cs">
+      <DependentUpon>Needs.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NeedProject.cs">
+      <DependentUpon>Needs.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Needs.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Needs.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Needs.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Needs.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Needs.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Needs.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="NeedType.cs">
+      <DependentUpon>Needs.tt</DependentUpon>
+    </Compile>
     <Compile Include="NeedViewModel.cs" />
+    <Compile Include="Project.cs">
+      <DependentUpon>Needs.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectType.cs">
+      <DependentUpon>Needs.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Needs.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Needs.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="Needs.edmx.diagram">
+      <DependentUpon>Needs.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Needs.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Needs.Context.cs</LastGenOutput>
+      <DependentUpon>Needs.edmx</DependentUpon>
+    </Content>
+    <Content Include="Needs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Needs.edmx</DependentUpon>
+      <LastGenOutput>Needs.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
