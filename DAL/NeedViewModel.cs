@@ -10,7 +10,6 @@ namespace DAL
     {
         
         public NeedProject NeedProject { get; set; }
-        public Project Project { get; set; }
         public Need Need { get; set; }
         public List<Project> ProjectList { get; set; }
     }
