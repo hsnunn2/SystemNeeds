@@ -6,12 +6,14 @@ using System.Net.Http;
 using System.Web.Http;
 using DAL;
 
+
 namespace NeedAPI.Controllers
 {
     public class NeedViewModelController : ApiController
     {
         NeedEntities db = new NeedEntities();
         // GET: api/NeedViewModel
+       
         public IEnumerable<NeedViewModel> GetVM()
         {
 

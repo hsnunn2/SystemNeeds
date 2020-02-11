@@ -1,17 +1,16 @@
 ﻿$(document).ready(function () {
-    var vmURL = "https://localhost:44320/api/NeedViewModel/GetVM";
-   
+    var vmURL = "https://localhost:44320/api/NeedViewModel/GETVM";
+
     var theme = 'arctic';
 
     var needSource =
     {
         datatype: "json",
         datafields: [
-            { name: 'NeedID', type: 'int' },
-            { name: 'NeedTitle', type: 'string' },
-            { name: 'NeedDescription', type: 'string' },
-            { name: 'NeedDate', type: 'date' },
-            { name: 'ProjectList', type: 'array' }
+            { name: 'NeedViewModel.Need[0].ID', type: 'int' },
+            { name: 'NeedViewModel.Need[0].Name', type: 'string' },
+            { name: 'NeedViewModel.Need[0].Description', type: 'string' },
+            { name: 'NeedViewModel.Need[0].NeedDate', type: 'date' }
 
         ],
         id: 'ID',
@@ -21,6 +20,11 @@
         }
     };
     var vmDataAdapter = new $.jqx.dataAdapter(needSource);
+
+    if (vmDataAdapter.records != null) {
+
+        alert("vmDataAdapter.records.length " + vmDataAdapter.records.length.toString());
+    }
 
     /*  var cpdSource =
       {
@@ -66,7 +70,7 @@
         var cpdssource = {
             datatype: "json",
             datafields: [
-                { name: 'Id', type: 'int' },
+                { name: 'Project[0].ID', type: 'int' },
                 { name: 'Title', type: 'string' },
                 { name: 'InServiceDate', type: 'date' },
                 { name: 'LastModified', type: 'date' }
@@ -106,17 +110,17 @@
             sortable: true,
             filterable: true,
             rowdetails: true,
-            initrowdetails: initrowdetails,
-            rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 160, rowdetailshidden: true },
+           // initrowdetails: initrowdetails,
+          //  rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 160, rowdetailshidden: true },
             // rendergridrows: rendergridrows,
             // ready: function () {
             //  $("#grid").jqxGrid('showrowdetails', 1);
             // },
             columns: [
-                { text: 'System-Need ID', dataField: 'Need.ID', width: 60 },
-                { text: 'Need Title', dataField: 'Need.Name', width: 200 },
-                { text: 'Need Description', dataField: 'Need.Description', width: 200 },
-                { text: 'Need Date', dataField: 'Need.NeedDate', cellsformat: 'yyyy-MM-dd', width: 120 },
+                { text: 'System-Need ID', dataField: 'NeedViewModel.Need[0].ID', width: 60 },
+                { text: 'Need Title', dataField: 'NeedViewModel.Need[0].Name', width: 200 },
+                { text: 'Need Description', dataField: 'NeedViewModel.Need[0].Description', width: 200 },
+                { text: 'Need Date', dataField: 'NeedViewModel.Need[0].NeedDate', cellsformat: 'yyyy-MM-dd', width: 120 },
                 /*{
                     text: 'CPDs Assigned', datafield: 'CPDAssignedToNeeds', width: 100,
                     cellsrenderer: function (row, colum, value) {
