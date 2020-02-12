@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace NeedAPI
 {
@@ -11,6 +14,14 @@ namespace NeedAPI
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+
+          
+
+            config.EnableCors();
+            var enableCorsAttribute = new EnableCorsAttribute("*",
+                                               "Origin, Content-Type, Accept",
+                                               "GET, PUT, POST, DELETE, OPTIONS");
+            config.EnableCors(enableCorsAttribute);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -21,8 +32,21 @@ namespace NeedAPI
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            GlobalConfiguration.Configuration.Formatters.Clear();
-            GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
+            config.Formatters.Add(new BrowserJsonFormatter());
         }
+    }
+}
+public class BrowserJsonFormatter : JsonMediaTypeFormatter
+{
+    public BrowserJsonFormatter()
+    {
+        this.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+        this.SerializerSettings.Formatting = Formatting.Indented;
+    }
+
+    public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
+    {
+        base.SetDefaultContentHeaders(type, headers, mediaType);
+        headers.ContentType = new MediaTypeHeaderValue("application/json");
     }
 }

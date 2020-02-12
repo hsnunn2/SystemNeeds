@@ -13,7 +13,7 @@ namespace NeedAPI.Controllers
     {
         NeedEntities db = new NeedEntities();
         // GET: api/NeedViewModel
-       
+
         public IEnumerable<NeedViewModel> GetVM()
         {
 
@@ -24,21 +24,24 @@ namespace NeedAPI.Controllers
             List<Need> nList = db.Needs.ToList();
             List<Project> pList = db.Projects.ToList();
 
-
-            foreach (var np in npList)
+            foreach (var n in nList)
             {
 
                 vm = new NeedViewModel();
+                vm.ID = n.ID;
+                vm.LastModified = n.LastModified;
+                vm.LocationID = n.LocationID;
+                vm.Name = n.Name;
+                vm.Description = n.Description;
+                vm.NeedDate = n.NeedDate;
+                vm.NeedTypeID = n.NeedTypeID;
+                vm.User = n.User;
                 vm.ProjectList = new List<Project>();
-                vm.NeedProject = np;
-                
-                foreach(var n in nList)
+                foreach (var np in npList)
                 {
-                    if (n.ID == np.NeedID)
+                    if (vm.ID == np.NeedID)
                     {
-                        vm.Need = n;
-
-                        foreach(var p in pList)
+                        foreach (var p in pList)
                         {
                             if (p.Id == np.ProjectID)
                             {
@@ -48,9 +51,8 @@ namespace NeedAPI.Controllers
                     }
                 }
                 vmList.Add(vm);
-
             }
-            
+
             return vmList;
         }
 

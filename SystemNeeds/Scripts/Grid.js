@@ -5,53 +5,62 @@
 
     var needSource =
     {
+
+        type: "GET",
         datatype: "json",
+        credentials: true,
         datafields: [
-            { name: 'NeedViewModel.Need[0].ID', type: 'int' },
-            { name: 'NeedViewModel.Need[0].Name', type: 'string' },
-            { name: 'NeedViewModel.Need[0].Description', type: 'string' },
-            { name: 'NeedViewModel.Need[0].NeedDate', type: 'date' }
+            { name: 'ID', type: 'int' },
+            { name: 'Name', type: 'string'},
+            { name: 'Description', type: 'string'},
+            { name: 'NeedDate', type: 'date'},
+            { name: 'ProjectList', type: 'array' }
 
         ],
-        id: 'ID',
+       // id: 'NeedProject.ID',
         url: vmURL,
+        ID: 'ID',
         pager: function (pagenum, pagesize, oldpagenum) {
             // callback called when a page or page size is changed.
         }
     };
     var vmDataAdapter = new $.jqx.dataAdapter(needSource);
+    //alert(needSource.length);
+   // var vmDataAdapter = new $.jqx.dataAdapter(needSource, {
+   //     contentType: 'application/json; charset=utf-8',
+   //    downloadComplete: function (data, textStatus, jqXHR) {
+    //        return data.d;
+    //    }
+    //});
 
-    if (vmDataAdapter.records != null) {
-
-        alert("vmDataAdapter.records.length " + vmDataAdapter.records.length.toString());
-    }
-
-    /*  var cpdSource =
+    
+     var cpdSource =
       {
           datatype: "json",
           datafields: [
-              { name: 'ID', type: 'number' },
+              { name: 'Id', type: 'number' },
               { name: 'Title', type: 'string' },
               { name: 'InServiceDate', type: 'date' }
   
           ],
-          localdata: vmDataAdapter.records.cpdlist,
+         localdata: vmDataAdapter.records.ProjectList,
           pager: function (pagenum, pagesize, oldpagenum) {
               // callback called when a page or page size is changed.
           }
       };
-      */
+      
     var nestedGrids = new Array();
 
-    //var cpdsDataAdapter = new $.jqx.dataAdapter(cpdSource);
+    var cpdsDataAdapter = new $.jqx.dataAdapter(cpdSource);
     // var cpds = cpdsDataAdapter.records;
     // alert("CPDS " + cpds.records.);
 
     var initrowdetails = function (index, parentElement, gridElement, record) {
         //var id = record.uid.toString();
-        var id = record.NeedID.toString();
-        debugger;
-        //alert("record.CPDList.length = " + record.CPDList.length.toString());
+        var id = record.ID.toString();
+       // alert("ID > " + id);
+        //debugger;
+      //  alert("record.CPDList.length = " + record.ProjectList.length.toString());
         var grid = $($(parentElement).children()[0]);
         nestedGrids[index] = grid;
         var filtergroup = new $.jqx.filter();
@@ -70,7 +79,7 @@
         var cpdssource = {
             datatype: "json",
             datafields: [
-                { name: 'Project[0].ID', type: 'int' },
+                { name: 'Id', type: 'integer' },
                 { name: 'Title', type: 'string' },
                 { name: 'InServiceDate', type: 'date' },
                 { name: 'LastModified', type: 'date' }
@@ -97,8 +106,6 @@
         return '<span style="margin-left: 4px; margin-top: 9px; float: left;">' + value + '</span>';
     }
 
-
-
     $("#grid").jqxGrid(
         {
             width: 850,
@@ -110,33 +117,36 @@
             sortable: true,
             filterable: true,
             rowdetails: true,
-           // initrowdetails: initrowdetails,
-          //  rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 160, rowdetailshidden: true },
+            initrowdetails: initrowdetails,
+            rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 160, rowdetailshidden: true },
             // rendergridrows: rendergridrows,
             // ready: function () {
             //  $("#grid").jqxGrid('showrowdetails', 1);
             // },
             columns: [
-                { text: 'System-Need ID', dataField: 'NeedViewModel.Need[0].ID', width: 60 },
-                { text: 'Need Title', dataField: 'NeedViewModel.Need[0].Name', width: 200 },
-                { text: 'Need Description', dataField: 'NeedViewModel.Need[0].Description', width: 200 },
-                { text: 'Need Date', dataField: 'NeedViewModel.Need[0].NeedDate', cellsformat: 'yyyy-MM-dd', width: 120 },
-                /*{
-                    text: 'CPDs Assigned', datafield: 'CPDAssignedToNeeds', width: 100,
-                    cellsrenderer: function (row, colum, value) {
-                        var cell = '<div style="margin-top:5px;">';
-                        cell += '<div style="background: #058dc7; float: left; width: ' + value + 'px; height: 16px;"></div>';
-                        cell += '<div style="margin-left: 5px; float: left;">' + value.toString() + '%' + '</div>';
-                        cell += '</div>';
-                        return cell;
-                    }
-                    */
+                { text: 'System-Need ID', dataField: 'ID', width: 60 },
+                { text: 'Need Title', dataField: 'Name', width: 200 },
+                { text: 'Need Description', dataField: 'Description', width: 200 },
+                { text: 'Need Date', dataField: 'NeedDate', cellsformat: 'yyyy-MM-dd', width: 120 },
+                //{
+                //   text: 'CPDs Assigned', datafield: 'CPDAssignedToNeeds', width: 100,
+                  //  cellsrenderer: function (row, colum, value) {
+                   //     var cell = '<div style="margin-top:5px;">';
+                    //    cell += '<div style="background: #058dc7; float: left; width: ' + value + 'px; height: 16px;"></div>';
+                    //    cell += '<div style="margin-left: 5px; float: left;">' + value.toString() + '%' + '</div>';
+                     //   cell += '</div>';
+                     //   return cell;
+                   // }
+                    
                // }//,
                 //{ text: 'CPD List', dataField: 'CPDList', width: 200 }
 
             ]
-        });
+});
 
+
+ 
+/*
     $("#saveState").jqxButton({ theme: theme });
     $("#loadState").jqxButton({ theme: theme });
     var state = null;
@@ -179,5 +189,6 @@
         var paginginformation = $("#grid").jqxGrid('getpaginginformation');
         $('#paginginfo').html("<div style='margin-top: 5px;'>Page:" + paginginformation.pagenum + ", Page Size: " + paginginformation.pagesize + ", Pages Count: " + paginginformation.pagescount + "</div>");
     });
+    */
 
 });
