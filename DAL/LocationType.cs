@@ -12,19 +12,24 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class ProjectType
+    public partial class LocationType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ProjectType()
+        public LocationType()
         {
-            this.Projects = new HashSet<Project>();
+            this.Locations = new HashSet<Location>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public Nullable<int> ParentTypeID { get; set; }
+        public Nullable<System.DateTime> LastModified { get; set; }
+        public string User { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
+        public virtual LocationType LocationType1 { get; set; }
+        public virtual LocationType LocationType2 { get; set; }
     }
 }

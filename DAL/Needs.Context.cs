@@ -30,5 +30,10 @@ namespace DAL
         public virtual DbSet<NeedType> NeedTypes { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<ProjectType> ProjectTypes { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<LocationType> LocationTypes { get; set; }
+        public virtual DbSet<NeedRisk> NeedRisks { get; set; }
+        public virtual DbSet<Risk> Risks { get; set; }
+        public virtual DbSet<RiskType> RiskTypes { get; set; }
     }
 }

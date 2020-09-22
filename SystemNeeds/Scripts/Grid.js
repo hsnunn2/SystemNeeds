@@ -36,7 +36,8 @@
     
      var cpdSource =
       {
-          datatype: "json",
+         datatype: "json",
+          withCredentials: true,
           datafields: [
               { name: 'Id', type: 'number' },
               { name: 'Title', type: 'string' },
@@ -78,6 +79,7 @@
 
         var cpdssource = {
             datatype: "json",
+            withCredentials: true,
             datafields: [
                 { name: 'Id', type: 'integer' },
                 { name: 'Title', type: 'string' },
@@ -143,12 +145,33 @@
 
             ]
 });
+    $("#print").jqxButton();
+    $("#excelExport").jqxButton({ theme: theme });
+    $("#excelExport").click(function () {
+        $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid', false);
+    });
 
+    $("#print").click(function () {
+        var gridContent = $("#grid").jqxGrid('exportdata', 'html');
+        var newWindow = window.open('', '', 'width=800, height=500'),
+            document = newWindow.document.open(),
+            pageContent =
+                '<!DOCTYPE html>\n' +
+                '<html>\n' +
+                '<head>\n' +
+                '<meta charset="utf-8" />\n' +
+                '<title>jQWidgets Grid</title>\n' +
+                '</head>\n' +
+                '<body>\n' + gridContent + '\n</body>\n</html>';
+        document.write(pageContent);
+        document.close();
+        newWindow.print();
+    });
 
  
-/*
     $("#saveState").jqxButton({ theme: theme });
     $("#loadState").jqxButton({ theme: theme });
+
     var state = null;
     $("#saveState").click(function () {
         // save the current state of jqxGrid.
@@ -189,6 +212,6 @@
         var paginginformation = $("#grid").jqxGrid('getpaginginformation');
         $('#paginginfo').html("<div style='margin-top: 5px;'>Page:" + paginginformation.pagenum + ", Page Size: " + paginginformation.pagesize + ", Pages Count: " + paginginformation.pagescount + "</div>");
     });
-    */
+    
 
 });

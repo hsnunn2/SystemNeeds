@@ -14,6 +14,12 @@ namespace DAL
     
     public partial class Need
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Need()
+        {
+            this.NeedProjects = new HashSet<NeedProject>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -22,5 +28,8 @@ namespace DAL
         public Nullable<int> LocationID { get; set; }
         public System.DateTime LastModified { get; set; }
         public string User { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NeedProject> NeedProjects { get; set; }
     }
 }

@@ -4,7 +4,31 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NeedModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NeedModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="LocationType" Type="int" />
+          <Property Name="ParentLocationID" Type="int" />
+          <Property Name="Latitude" Type="geography" />
+          <Property Name="Longitude" Type="geography" />
+          <Property Name="Polygon" Type="geometry" />
+        </EntityType>
+        <EntityType Name="LocationType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="ParentTypeID" Type="int" />
+          <Property Name="LastModified" Type="datetime" />
+          <Property Name="User" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Need">
           <Key>
             <PropertyRef Name="ID" />
@@ -28,6 +52,14 @@
           <Property Name="LastModified" Type="datetime" Nullable="false" />
           <Property Name="User" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="NeedRisk">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="NeedID" Type="int" />
+          <Property Name="RiskID" Type="int" />
+        </EntityType>
         <EntityType Name="NeedType">
           <Key>
             <PropertyRef Name="ID" />
@@ -37,11 +69,12 @@
         </EntityType>
         <EntityType Name="Project">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="varchar" MaxLength="255" />
-          <Property Name="InServiceDate" Type="datetime" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
           <Property Name="ProjectType" Type="int" />
           <Property Name="LastModified" Type="datetime" />
           <Property Name="User" Type="varchar" MaxLength="50" />
@@ -54,15 +87,116 @@
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="Description" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="Risk">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="Value" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="RiskType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_Location_LocationType">
+          <End Role="LocationType" Type="Self.LocationType" Multiplicity="0..1" />
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="LocationType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationType_LocationType">
+          <End Role="LocationType" Type="Self.LocationType" Multiplicity="1" />
+          <End Role="LocationType1" Type="Self.LocationType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="LocationType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LocationType1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NeedProject_Need">
+          <End Role="Need" Type="Self.Need" Multiplicity="1" />
+          <End Role="NeedProject" Type="Self.NeedProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Need">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NeedProject">
+              <PropertyRef Name="NeedID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NeedProject_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="NeedProject" Type="Self.NeedProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NeedProject">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_ProjectType">
+          <End Role="ProjectType" Type="Self.ProjectType" Multiplicity="0..1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ProjectType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="NeedModelStoreContainer">
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LocationType" EntityType="Self.LocationType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Need" EntityType="Self.Need" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NeedProject" EntityType="Self.NeedProject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NeedRisk" EntityType="Self.NeedRisk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NeedType" EntityType="Self.NeedType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectType" EntityType="Self.ProjectType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Risk" EntityType="Self.Risk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RiskType" EntityType="Self.RiskType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Location_LocationType" Association="Self.FK_Location_LocationType">
+            <End Role="LocationType" EntitySet="LocationType" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationType_LocationType" Association="Self.FK_LocationType_LocationType">
+            <End Role="LocationType" EntitySet="LocationType" />
+            <End Role="LocationType1" EntitySet="LocationType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NeedProject_Need" Association="Self.FK_NeedProject_Need">
+            <End Role="Need" EntitySet="Need" />
+            <End Role="NeedProject" EntitySet="NeedProject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NeedProject_Project" Association="Self.FK_NeedProject_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="NeedProject" EntitySet="NeedProject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_ProjectType" Association="Self.FK_Project_ProjectType">
+            <End Role="ProjectType" EntitySet="ProjectType" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NeedModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -78,6 +212,7 @@
           <Property Name="LocationID" Type="Int32" />
           <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="NeedProjects" Relationship="NeedModel.FK_NeedProject_Need" FromRole="Need" ToRole="NeedProject" />
         </EntityType>
         <EntityType Name="NeedProject">
           <Key>
@@ -88,6 +223,8 @@
           <Property Name="ProjectID" Type="Int32" Nullable="false" />
           <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Need" Relationship="NeedModel.FK_NeedProject_Need" FromRole="NeedProject" ToRole="Need" />
+          <NavigationProperty Name="Project" Relationship="NeedModel.FK_NeedProject_Project" FromRole="NeedProject" ToRole="Project" />
         </EntityType>
         <EntityType Name="NeedType">
           <Key>
@@ -98,14 +235,17 @@
         </EntityType>
         <EntityType Name="Project">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="InServiceDate" Type="DateTime" Precision="3" />
           <Property Name="ProjectType" Type="Int32" />
           <Property Name="LastModified" Type="DateTime" Precision="3" />
           <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="NeedProjects" Relationship="NeedModel.FK_NeedProject_Project" FromRole="Project" ToRole="NeedProject" />
+          <NavigationProperty Name="ProjectType1" Relationship="NeedModel.FK_Project_ProjectType" FromRole="Project" ToRole="ProjectType" />
         </EntityType>
         <EntityType Name="ProjectType">
           <Key>
@@ -114,6 +254,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Projects" Relationship="NeedModel.FK_Project_ProjectType" FromRole="ProjectType" ToRole="Project" />
         </EntityType>
         <EntityContainer Name="NeedEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Needs" EntityType="Self.Need" />
@@ -121,7 +262,145 @@
           <EntitySet Name="NeedTypes" EntityType="Self.NeedType" />
           <EntitySet Name="Projects" EntityType="Self.Project" />
           <EntitySet Name="ProjectTypes" EntityType="Self.ProjectType" />
+          <EntitySet Name="Locations" EntityType="NeedModel.Location" />
+          <EntitySet Name="LocationTypes" EntityType="NeedModel.LocationType" />
+          <EntitySet Name="NeedRisks" EntityType="NeedModel.NeedRisk" />
+          <EntitySet Name="Risks" EntityType="NeedModel.Risk" />
+          <EntitySet Name="RiskTypes" EntityType="NeedModel.RiskType" />
+          <AssociationSet Name="FK_Location_LocationType" Association="NeedModel.FK_Location_LocationType">
+            <End Role="LocationType" EntitySet="LocationTypes" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationType_LocationType" Association="NeedModel.FK_LocationType_LocationType">
+            <End Role="LocationType" EntitySet="LocationTypes" />
+            <End Role="LocationType1" EntitySet="LocationTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NeedProject_Need" Association="NeedModel.FK_NeedProject_Need">
+            <End Role="Need" EntitySet="Needs" />
+            <End Role="NeedProject" EntitySet="NeedProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NeedProject_Project" Association="NeedModel.FK_NeedProject_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="NeedProject" EntitySet="NeedProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_ProjectType" Association="NeedModel.FK_Project_ProjectType">
+            <End Role="ProjectType" EntitySet="ProjectTypes" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LocationType" Type="Int32" />
+          <Property Name="ParentLocationID" Type="Int32" />
+          <Property Name="Latitude" Type="Geography" />
+          <Property Name="Longitude" Type="Geography" />
+          <Property Name="Polygon" Type="Geometry" />
+          <NavigationProperty Name="LocationType1" Relationship="NeedModel.FK_Location_LocationType" FromRole="Location" ToRole="LocationType" />
+        </EntityType>
+        <EntityType Name="LocationType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ParentTypeID" Type="Int32" />
+          <Property Name="LastModified" Type="DateTime" Precision="3" />
+          <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Locations" Relationship="NeedModel.FK_Location_LocationType" FromRole="LocationType" ToRole="Location" />
+          <NavigationProperty Name="LocationType1" Relationship="NeedModel.FK_LocationType_LocationType" FromRole="LocationType" ToRole="LocationType1" />
+          <NavigationProperty Name="LocationType2" Relationship="NeedModel.FK_LocationType_LocationType" FromRole="LocationType1" ToRole="LocationType" />
+        </EntityType>
+        <EntityType Name="NeedRisk">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="NeedID" Type="Int32" />
+          <Property Name="RiskID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Risk">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="RiskType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Location_LocationType">
+          <End Type="NeedModel.LocationType" Role="LocationType" Multiplicity="0..1" />
+          <End Type="NeedModel.Location" Role="Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="LocationType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationType_LocationType">
+          <End Type="NeedModel.LocationType" Role="LocationType" Multiplicity="1" />
+          <End Type="NeedModel.LocationType" Role="LocationType1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="LocationType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LocationType1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NeedProject_Need">
+          <End Type="NeedModel.Need" Role="Need" Multiplicity="1" />
+          <End Type="NeedModel.NeedProject" Role="NeedProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Need">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NeedProject">
+              <PropertyRef Name="NeedID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NeedProject_Project">
+          <End Type="NeedModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="NeedModel.NeedProject" Role="NeedProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NeedProject">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_ProjectType">
+          <End Type="NeedModel.ProjectType" Role="ProjectType" Multiplicity="0..1" />
+          <End Type="NeedModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ProjectType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -164,9 +443,10 @@
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="NeedModel.Project">
               <MappingFragment StoreEntitySet="Project">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="InServiceDate" ColumnName="InServiceDate" />
                 <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
                 <ScalarProperty Name="LastModified" ColumnName="LastModified" />
                 <ScalarProperty Name="User" ColumnName="User" />
@@ -179,6 +459,60 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="NeedModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Polygon" ColumnName="Polygon" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="ParentLocationID" ColumnName="ParentLocationID" />
+                <ScalarProperty Name="LocationType" ColumnName="LocationType" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationTypes">
+            <EntityTypeMapping TypeName="NeedModel.LocationType">
+              <MappingFragment StoreEntitySet="LocationType">
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+                <ScalarProperty Name="ParentTypeID" ColumnName="ParentTypeID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NeedRisks">
+            <EntityTypeMapping TypeName="NeedModel.NeedRisk">
+              <MappingFragment StoreEntitySet="NeedRisk">
+                <ScalarProperty Name="RiskID" ColumnName="RiskID" />
+                <ScalarProperty Name="NeedID" ColumnName="NeedID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Risks">
+            <EntityTypeMapping TypeName="NeedModel.Risk">
+              <MappingFragment StoreEntitySet="Risk">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RiskTypes">
+            <EntityTypeMapping TypeName="NeedModel.RiskType">
+              <MappingFragment StoreEntitySet="RiskType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

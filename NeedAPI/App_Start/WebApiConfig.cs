@@ -15,13 +15,14 @@ namespace NeedAPI
         {
             // Web API configuration and services
 
-          
+            var cors = new EnableCorsAttribute("https://localhost:44320", "*", "*");
+            config.EnableCors(cors);
 
-            config.EnableCors();
-            var enableCorsAttribute = new EnableCorsAttribute("*",
-                                               "Origin, Content-Type, Accept",
-                                               "GET, PUT, POST, DELETE, OPTIONS");
-            config.EnableCors(enableCorsAttribute);
+           // config.EnableCors();
+           // var enableCorsAttribute = new EnableCorsAttribute("*",
+           //                                    "Origin, Content-Type, Accept",
+           //                                    "GET, PUT, POST, DELETE, OPTIONS");
+          //  config.EnableCors(enableCorsAttribute);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

@@ -14,11 +14,22 @@ namespace DAL
     
     public partial class Project
     {
-        public int Id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Project()
+        {
+            this.NeedProjects = new HashSet<NeedProject>();
+        }
+    
         public string Title { get; set; }
-        public Nullable<System.DateTime> InServiceDate { get; set; }
         public Nullable<int> ProjectType { get; set; }
         public Nullable<System.DateTime> LastModified { get; set; }
         public string User { get; set; }
+        public int ID { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NeedProject> NeedProjects { get; set; }
+        public virtual ProjectType ProjectType1 { get; set; }
     }
 }

@@ -8,8 +8,18 @@
         <EntityTypeShape EntityType="NeedModel.Need" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="NeedModel.NeedProject" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="NeedModel.NeedType" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="NeedModel.Project" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NeedModel.Project" Width="1.5" PointX="5.375" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="NeedModel.ProjectType" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NeedModel.Location" Width="1.5" PointX="3" PointY="7" />
+        <EntityTypeShape EntityType="NeedModel.LocationType" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="NeedModel.NeedRisk" Width="1.5" PointX="5.75" PointY="6.75" />
+        <EntityTypeShape EntityType="NeedModel.Risk" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="NeedModel.RiskType" Width="1.5" PointX="7.75" PointY="3.75" />
+        <AssociationConnector Association="NeedModel.FK_Location_LocationType" />
+        <AssociationConnector Association="NeedModel.FK_LocationType_LocationType" />
+        <AssociationConnector Association="NeedModel.FK_NeedProject_Need" />
+        <AssociationConnector Association="NeedModel.FK_NeedProject_Project" />
+        <AssociationConnector Association="NeedModel.FK_Project_ProjectType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

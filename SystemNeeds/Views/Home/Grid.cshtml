@@ -3,11 +3,26 @@
     ViewBag.Title = "Grid";
 }
 <h2>Grid</h2>
-<div id="grid"></div>
-<div id="paginginfo"></div>
-<div id="saveState"></div><div id="loadState"></div>
-<div id="eventslog"></div>
-<div id="events"></div>
+<div id='jqxWidget'>
+    <div style='margin-top: 20px;'>
+        <div style='margin-left: 10px; float: left;'>
+            <input type="button" value="Print" id='print' />
+        </div>
+    </div>
+
+    <div style='margin-top: 20px;'>
+        <div style='float: left;'>
+            <input type="button" value="Export to Excel" id='excelExport' />
+        </div>
+    </div>
+        <div id="grid"></div>
+        <div id="saveState"></div><div id="loadState"></div>
+        <div id="events">
+            <div id="paginginfo"></div>
+
+            <div id="eventslog"></div>
+        </div>
+    </div>
 
 
 

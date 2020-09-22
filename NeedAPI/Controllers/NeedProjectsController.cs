@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using DAL;
+using System.Web.Http.Cors;
 
 namespace NeedAPI.Controllers
 {
+   //[EnableCors(origins: "https://localhost/", headers: "*", methods: "*")]
     public class NeedProjectsController : ApiController
     {
         private NeedEntities db = new NeedEntities();

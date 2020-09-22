@@ -16,6 +16,8 @@ namespace DAL
         public Nullable<System.DateTime> NeedDate { get; set; }
         public Nullable<int> NeedTypeID { get; set; }
         public Nullable<int> LocationID { get; set; }
+
+        public Nullable<int> NeedRiskID { get; set; }
         public System.DateTime LastModified { get; set; }
         public string User { get; set; }
 

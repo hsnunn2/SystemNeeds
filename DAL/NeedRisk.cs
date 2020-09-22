@@ -12,15 +12,10 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class NeedProject
+    public partial class NeedRisk
     {
         public int ID { get; set; }
-        public int NeedID { get; set; }
-        public int ProjectID { get; set; }
-        public System.DateTime LastModified { get; set; }
-        public string User { get; set; }
-    
-        public virtual Need Need { get; set; }
-        public virtual Project Project { get; set; }
+        public Nullable<int> NeedID { get; set; }
+        public Nullable<int> RiskID { get; set; }
     }
 }

@@ -5,16 +5,18 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using DAL;
+using System.Web.Http.Cors;
 
 
 namespace NeedAPI.Controllers
 {
+   // [EnableCors(origins: "https://localhost/", headers: "*", methods: "*")]
     public class NeedViewModelController : ApiController
     {
         NeedEntities db = new NeedEntities();
         // GET: api/NeedViewModel
 
-        public IEnumerable<NeedViewModel> GetVM()
+        public HttpResponseMessage GetVM()
         {
 
             List<NeedViewModel> vmList = new List<NeedViewModel>();
@@ -37,23 +39,25 @@ namespace NeedAPI.Controllers
                 vm.NeedTypeID = n.NeedTypeID;
                 vm.User = n.User;
                 vm.ProjectList = new List<Project>();
-                foreach (var np in npList)
+               
+                /*foreach (var np in npList)
                 {
                     if (vm.ID == np.NeedID)
                     {
                         foreach (var p in pList)
                         {
-                            if (p.Id == np.ProjectID)
+                            if (p.ID == np.ProjectID)
                             {
                                 vm.ProjectList.Add(p);
                             }
                         }
                     }
                 }
+                */
                 vmList.Add(vm);
             }
-
-            return vmList;
+            return Request.CreateResponse(HttpStatusCode.OK, vmList, Configuration.Formatters.JsonFormatter);
+           // return vmList;
         }
 
         // GET: api/NeedViewModel/5
